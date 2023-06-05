@@ -1,0 +1,42 @@
+/* Earnings counter, that will count 2,22 danish kroner while the reader is reading. */ 
+
+<script>
+const counterElement = document.getElementById("counter");
+let counterValue = 0;
+
+function updateCounter() {
+  counterValue += 2.22;
+  counterElement.textContent = counterValue.toFixed(2);
+}
+
+setInterval(updateCounter, 1000);
+</script>
+<style>
+.counter-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+background-color: #162c41;
+border-radius: 5px;
+color: white;
+  font-size: 24px;
+}
+
+#counter {
+  padding: 0 10px;
+}
+
+.title {
+font-size: 1.3rem;
+padding-bottom: 1rem;
+padding-top: 1rem;
+}
+
+</style>
+<center>
+<p class="title">Så meget har Christian Eriksen tjent, mens du har læst artiklen:</p>
+<div class="counter-box">
+    <span id="counter">0.00</span> <span> kroner</span>
+  </div></center>
