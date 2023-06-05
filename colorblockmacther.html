@@ -1,0 +1,109 @@
+/* A color-picker guide, that will highlight which other colors on the palette matches with the chosen color. */ 
+
+<script>
+document.querySelectorAll('.color').forEach(color => {
+  color.addEventListener('click', event => {
+    const hex = event.currentTarget.getAttribute('data-color');
+    copyToClipboard(hex);
+  });
+
+  color.addEventListener('mouseover', event => {
+    const hex = event.currentTarget.getAttribute('data-color');
+    const pairs = event.currentTarget.getAttribute('data-pairs');
+    highlightPairs(hex, pairs);
+  });
+
+  color.addEventListener('mouseout', event => {
+    resetHighlights();
+  });
+});
+
+function copyToClipboard(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  alert('Copied to clipboard: ' + text);
+}
+
+function highlightPairs(hex, pairs) {
+  if (!pairs) return;
+
+  const pairedColors = pairs.split(',');
+  document.querySelectorAll('.color').forEach(color => {
+    const currentColor = color.getAttribute('data-color');
+    if (pairedColors.includes(currentColor)) {
+      color.style.border = `3px solid ${hex}`;
+    }
+  });
+}
+
+function resetHighlights() {
+  document.querySelectorAll('.color').forEach(color => {
+    color.style.border = 'none';
+  });
+}
+
+</script>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+}
+
+.color {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.color:hover::before {
+  content: attr(data-color);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>
+<body>
+  <div class="container">
+    <div class="color" data-color="#333" data-pairs="#d21e1e,#fff" style="background-color: #333;"></div>
+    <div class="color" data-color="#162c41" data-pairs="#fff,#F8C7CC" style="background-color: #162c41;"></div>
+    <div class="color" data-color="#d21e1e" data-pairs="#fff,#333,#f4f4f4" style="background-color: #d21e1e;"></div>
+    <div class="color" data-color="#f4f4f4" style="background-color: #f4f4f4;"></div>
+    <div class="color" data-color="#fff" style="background-color: #fff;"></div>
+    <div class="color" data-color="#F8C7CC" style="background-color: #F8C7CC;"></div>
+    <div class="color" data-color="#B7CCE3" style="background-color: #B7CCE3;"></div>
+    <div class="color" data-color="#519E8A" style="background-color: #519E8A;"></div>
+    <div class="color" data-color="#039BE4" style="background-color: #039BE4;"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
